@@ -11,7 +11,7 @@ resource "aws_vpc" "my_vpc" {
 
 # Public Subnets
 resource "aws_subnet" "my_public_subnets" {
-  count = 3
+  count = local.az_count
 
   vpc_id            = aws_vpc.my_vpc.id
   availability_zone = var.az[count.index]
@@ -25,7 +25,7 @@ resource "aws_subnet" "my_public_subnets" {
 
 # Private Subnets
 resource "aws_subnet" "my_private_subnets" {
-  count = 3
+  count = local.az_count
 
   vpc_id            = aws_vpc.my_vpc.id
   availability_zone = var.az[count.index]
@@ -64,7 +64,7 @@ resource "aws_route_table" "my_public_route_table" {
 
 # Route Table Association
 resource "aws_route_table_association" "my_public_route_table_subnet_association" {
-  count = 3
+  count = local.az_count
 
   subnet_id      = aws_subnet.my_public_subnets[count.index].id
   route_table_id = aws_route_table.my_public_route_table.id
