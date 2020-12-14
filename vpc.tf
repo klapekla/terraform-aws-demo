@@ -14,7 +14,7 @@ resource "aws_subnet" "my_public_subnets" {
   count = local.az_count
 
   vpc_id            = aws_vpc.my_vpc.id
-  availability_zone = var.az[count.index]
+  availability_zone = local.az[count.index]
   cidr_block        = "192.168.${count.index + 1}0.0/24"
 
   tags = {
@@ -28,7 +28,7 @@ resource "aws_subnet" "my_private_subnets" {
   count = local.az_count
 
   vpc_id            = aws_vpc.my_vpc.id
-  availability_zone = var.az[count.index]
+  availability_zone = local.az[count.index]
   cidr_block        = "192.168.${count.index + 1}1.0/24"
 
   tags = {

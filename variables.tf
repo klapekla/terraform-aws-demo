@@ -8,7 +8,3 @@ variable "region" {
   description = "Name of AWS region"
 }
 
-variable "az" {
-  type        = list(string)
-  description = "List of AWS availability zones"
-}
