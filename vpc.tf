@@ -70,4 +70,29 @@ resource "aws_route_table_association" "my_public_route_table_subnet_association
   route_table_id = aws_route_table.my_public_route_table.id
 }
 
-# TODO: NAT Gateay - For Internet Connection for Private Subnets (https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html)
+# Elastic IP for NAT Gateways
+resource "aws_eip" "my_eip_for_nat_gateway" {
+  count = local.az_count
+
+  vpc      = true
+
+  tags = {
+    Name = "my_eip_for_nat_gateway_${count.index + 1}"
+    Project = var.project_tag
+  }
+}
+
+# NAT Gateways
+resource "aws_nat_gateway" "my_nat_gateway" {
+  count = local.az_count
+
+  allocation_id = aws_eip.my_eip_for_nat_gateway[count.index].id
+  subnet_id     = aws_subnet.my_public_subnets[count.index].id
+
+  tags = {
+    Name = "my_nat_gateway_${count.index + 1}"
+    Project = var.project_tag
+  }
+}
+
+# Route Table for Private Network <-> NAT Gateway <-> Internet
