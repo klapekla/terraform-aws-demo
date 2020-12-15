@@ -95,4 +95,13 @@ resource "aws_nat_gateway" "my_nat_gateway" {
   }
 }
 
-# Route Table for Private Network <-> NAT Gateway <-> Internet
+# Root Table Route for routing Private Subnet Traffic to NAT
+resource "aws_route" "my_nat_gateway_route" {
+  count = local.az_count
+
+  route_table_id            = aws_vpc.my_vpc.main_route_table_id
+  destination_cidr_block    = "0.0.0.0/0"
+  nat_gateway_id = aws_nat_gateway.my_nat_gateway[count.index].id
+}
+
+# Route Table missing subnets?
