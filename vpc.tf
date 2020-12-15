@@ -42,7 +42,7 @@ resource "aws_internet_gateway" "my_igw" {
   vpc_id = aws_vpc.my_vpc.id
 
   tags = {
-    Name = "my_igw"
+    Name    = "my_igw"
     Project = var.project_tag
   }
 }
@@ -57,7 +57,7 @@ resource "aws_route_table" "my_public_route_table" {
   }
 
   tags = {
-    Name = "my_public_route_table"
+    Name    = "my_public_route_table"
     Project = var.project_tag
   }
 }
@@ -74,10 +74,10 @@ resource "aws_route_table_association" "my_public_route_table_subnet_association
 resource "aws_eip" "my_eip_for_nat_gateway" {
   count = local.az_count
 
-  vpc      = true
+  vpc = true
 
   tags = {
-    Name = "my_eip_for_nat_gateway_${count.index + 1}"
+    Name    = "my_eip_for_nat_gateway_${count.index + 1}"
     Project = var.project_tag
   }
 }
@@ -90,7 +90,7 @@ resource "aws_nat_gateway" "my_nat_gateway" {
   subnet_id     = aws_subnet.my_public_subnets[count.index].id
 
   tags = {
-    Name = "my_nat_gateway_${count.index + 1}"
+    Name    = "my_nat_gateway_${count.index + 1}"
     Project = var.project_tag
   }
 }
@@ -99,9 +99,9 @@ resource "aws_nat_gateway" "my_nat_gateway" {
 resource "aws_route" "my_nat_gateway_route" {
   count = local.az_count
 
-  route_table_id            = aws_vpc.my_vpc.main_route_table_id
-  destination_cidr_block    = "0.0.0.0/0"
-  nat_gateway_id = aws_nat_gateway.my_nat_gateway[count.index].id
+  route_table_id         = aws_vpc.my_vpc.main_route_table_id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.my_nat_gateway[count.index].id
 }
 
 # Route Table missing subnets?

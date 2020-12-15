@@ -11,7 +11,7 @@ resource "aws_dynamodb_table" "my_dynamodb_for_state_management" {
   }
 
   tags = {
-    Name        = "my_dynamodb_for_state_management"
-    Project     = var.project_tag
+    Name    = "my_dynamodb_for_state_management"
+    Project = var.project_tag
   }
 }
