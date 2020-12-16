@@ -11,8 +11,9 @@ This git repo contains infrastructure as code (terraform) to deploy a standard a
 In my demo AWS access_key and secret_key will be automatically loaded from ~/.aws/credentials since i have set that up previously
 
 ### 1. Initialize for Remote Management of terraform state and state lock
+Folder: 01-state-management
 
-Folder init-state-mangement contains iac files to create following ressources:
+This folder contains iac files to create following ressources:
 - S3 Bucket for storing the terraform state files
 - DynamoDB for managing locks of terraform state files
 
@@ -25,6 +26,7 @@ terraform apply
 ```
 
 ### 2. Creating infrastructure in AWS
+Folder: 02-base-infrastructure
 
 ```
 terraform init
