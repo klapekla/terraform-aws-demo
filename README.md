@@ -19,7 +19,7 @@ This folder contains iac files to create following ressources:
 
 Commands:
 ```
-cd init-statement-management
+cd 01-state-management
 terraform init
 terraform plan
 terraform apply
@@ -29,6 +29,7 @@ terraform apply
 Folder: 02-base-infrastructure
 
 ```
+cd 02-base-infrastructure
 terraform init
 terraform plan
 terraform apply
