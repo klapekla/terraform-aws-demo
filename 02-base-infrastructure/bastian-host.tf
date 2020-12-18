@@ -10,7 +10,7 @@ resource "aws_eip" "my_eip_for_bastion_host" {
 
 # Launch Template
 resource "aws_launch_template" "my_launch_template_for_bastion_host" {
-  name_prefix   = "bastion_host"
+  name_prefix   = "bastion_host_"
   image_id      = "ami-0bd39c806c2335b95"
   instance_type = "t2.micro"
   key_name      = aws_key_pair.my_key.key_name
