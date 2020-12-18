@@ -15,6 +15,9 @@ resource "aws_launch_template" "my_launch_template_for_bastion_host" {
   instance_type = "t2.micro"
   key_name      = aws_key_pair.my_key.key_name
   vpc_security_group_ids = [aws_security_group.my_ssh_sg.id]
+  iam_instance_profile {
+    name = aws_iam_instance_profile.my_instance_profile.name
+  }
   user_data     = base64encode(templatefile("bastion-host-eip-allocation.sh.tpl", {region = var.region , eip_public_ip = aws_eip.my_eip_for_bastion_host.public_ip , eip_allocation_id = aws_eip.my_eip_for_bastion_host.id }))
 
   tags = {
