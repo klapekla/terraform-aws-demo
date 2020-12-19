@@ -18,12 +18,8 @@ resource "aws_launch_template" "my_launch_template_for_bastion_host" {
   iam_instance_profile {
     name = aws_iam_instance_profile.my_instance_profile.name
   }
-  user_data     = <<-EOF
-    #cloud-config
-    runcmd:
-      - aws ec2 associate-address --instance-id $(curl http://169.254.169.254/latest/meta-data/instance-id) --allocation-id ${aws_eip.my_eip_for_bastion_host.id} --allow-reassociation
-    EOF
-  
+  user_data     = base64encode(templatefile("bastion-host-eip-allocation.sh.tpl", {region = var.region , eip_public_ip = aws_eip.my_eip_for_bastion_host.public_ip , eip_allocation_id = aws_eip.my_eip_for_bastion_host.id }))
+
   tags = {
     Name    = "my_launch_template_for_bastion_host"
     Project = var.project_tag
