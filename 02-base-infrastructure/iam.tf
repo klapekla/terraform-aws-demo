@@ -34,9 +34,7 @@ resource "aws_iam_role_policy" "my_policy_for_moving_eip" {
       {
         "Effect": "Allow",
         "Action": [
-          "ec2:DescribeInstanceStatus",
-          "ec2:AssociateAddress",
-          "ec2:DisassociateAddress"
+          "ec2:AssociateAddress"
         ],
         "Resource": "*"
       }
