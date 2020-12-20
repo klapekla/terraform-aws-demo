@@ -26,6 +26,15 @@ resource "aws_launch_template" "my_launch_template_for_bastion_host" {
     security_groups = [aws_security_group.my_ssh_sg.id]
   }
 
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = {
+      Name    = "my_bastion_host"
+      Project = var.project_tag
+    }
+  }
+
   tags = {
     Name    = "my_launch_template_for_bastion_host"
     Project = var.project_tag
