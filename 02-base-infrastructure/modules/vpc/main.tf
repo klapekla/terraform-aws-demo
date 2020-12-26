@@ -1,3 +1,14 @@
+# Datasources
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+# Locals
+locals {
+  az       = data.aws_availability_zones.available.names
+  az_count = length(local.az)
+}
+
 # VPC
 resource "aws_vpc" "my_vpc" {
   cidr_block       = "192.168.0.0/16"
@@ -20,6 +31,7 @@ resource "aws_subnet" "my_public_subnets" {
   tags = {
     Name    = "my_public_subnet_${count.index + 1}"
     Project = var.project_tag
+    Tier    = "public"
   }
 }
 
@@ -34,6 +46,7 @@ resource "aws_subnet" "my_private_subnets" {
   tags = {
     Name    = "my_private_subnet_${count.index + 1}"
     Project = var.project_tag
+    Tier    = "private"
   }
 }
 
