@@ -8,5 +8,8 @@
 # Crash log files
 crash.log
 
+# .tfvars files
+*.tfvars
+
 # Dependency Lock File
 .terraform.lock.hcl

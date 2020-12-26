@@ -30,7 +30,11 @@ Folder: 02-base-infrastructure
 
 ```
 cd 02-base-infrastructure
-terraform init
+terraform init \
+    -backend-config="bucket=terraform-state-wuoes-20201215" \
+    -backend-config="key=terraform-aws-demo.tfstate" \
+    -backend-config="region=eu-central-1" \
+    -backend-config="dynamodb_table=terraform-state-lock"
 terraform plan
 terraform apply
 ```
