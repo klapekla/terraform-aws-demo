@@ -10,7 +10,7 @@ terraform {
 
 provider "aws" {
   region = var.region
-} 
+}
 
 module "iam" {
   source                       = "./modules/iam"
@@ -19,17 +19,15 @@ module "iam" {
 }
 
 module "vpc" {
-  source = "./modules/vpc"
-  project_tag      = var.project_tag
-  region           = var.region
+  source      = "./modules/vpc"
+  project_tag = var.project_tag
+  region      = var.region
 }
 
 module "bastion" {
   source           = "./modules/bastion"
   project_tag      = var.project_tag
   region           = var.region
-  vpc_id           = aws_vpc.my_vpc.id
+  vpc_id           = module.vpc.vpc_id
   bastion_key_name = module.iam.bastion_key_name
-
-  depends_on       = [module.vpc]
 }
