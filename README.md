@@ -38,3 +38,19 @@ terraform init \
 terraform plan
 terraform apply
 ```
+
+### 3. Create example app in AWS
+Folder: 03-example-app
+
+This creates 3 ec2 instances and a loadbalancer for now.
+
+```
+cd 03-example-app
+terraform init \
+    -backend-config="bucket=terraform-state-wuoes-20201215" \
+    -backend-config="key=terraform-aws-demo-app.tfstate" \
+    -backend-config="region=eu-central-1" \
+    -backend-config="dynamodb_table=terraform-state-lock"
+terraform plan
+terraform apply
+```
