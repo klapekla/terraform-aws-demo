@@ -2,6 +2,11 @@
 
 This git repo contains infrastructure as code (terraform) to deploy a standard architecture to AWS.
 
+## Overview
+
+What we will build:
+![aws-diagram](./assets/terraform-aws-demo.svg)
+
 ## Prerequisites
 
 - Terraform installed on machine
