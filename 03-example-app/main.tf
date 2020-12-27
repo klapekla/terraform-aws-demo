@@ -42,8 +42,8 @@ data "aws_security_group" "bastion" {
 
 # Locals
 locals {
-  vpc_id = data.aws_vpc.this.id
-  subnets_public = tolist(data.aws_subnet_ids.public.ids)
+  vpc_id          = data.aws_vpc.this.id
+  subnets_public  = tolist(data.aws_subnet_ids.public.ids)
   subnets_private = tolist(data.aws_subnet_ids.private.ids)
 }
 
@@ -54,18 +54,18 @@ resource "aws_security_group" "my_app_sg" {
   vpc_id      = local.vpc_id
 
   ingress {
-    description = "SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
+    description     = "SSH"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
     security_groups = [data.aws_security_group.bastion.id]
   }
 
   ingress {
-    description = "HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
+    description     = "HTTP"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
     security_groups = [aws_security_group.loadbalancer.id]
   }
 
@@ -113,11 +113,11 @@ resource "aws_security_group" "loadbalancer" {
 resource "aws_instance" "app" {
   count = length(local.subnets_private)
 
-  ami           = "ami-0bd39c806c2335b95"
-  instance_type = "t2.micro"
-  subnet_id     = local.subnets_private[count.index]
+  ami             = "ami-0bd39c806c2335b95"
+  instance_type   = "t2.micro"
+  subnet_id       = local.subnets_private[count.index]
   security_groups = [aws_security_group.my_app_sg.id]
-  user_data = <<-EOF
+  user_data       = <<-EOF
   #!/bin/bash
   yum update -y
   yum install -y httpd.x86_64
