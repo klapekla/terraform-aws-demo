@@ -7,3 +7,8 @@ variable "region" {
   type        = string
   description = "Name of AWS region"
 }
+
+variable "domain" {
+  type = string
+  description = "Project Domain"
+}

@@ -24,6 +24,12 @@ module "vpc" {
   region      = var.region
 }
 
+module "dns" {
+  source = "./modules/dns"
+  project_tag = var.project_tag
+  domain = var.domain
+}
+
 module "bastion" {
   source           = "./modules/bastion"
   project_tag      = var.project_tag

@@ -12,14 +12,13 @@ provider "aws" {
   region = var.region
 }
 
-# Datasource for VPC
+# Datasources
 data "aws_vpc" "this" {
   tags = {
     Project = var.project_tag
   }
 }
 
-# Datasource Subnets
 data "aws_subnet_ids" "public" {
   vpc_id = local.vpc_id
 
@@ -40,11 +39,16 @@ data "aws_security_group" "bastion" {
   name = "security-group-ec2-bastion"
 }
 
+data "aws_route53_zone" "this" {
+  name         = var.domain
+}
+
 # Locals
 locals {
   vpc_id          = data.aws_vpc.this.id
   subnets_public  = tolist(data.aws_subnet_ids.public.ids)
   subnets_private = tolist(data.aws_subnet_ids.private.ids)
+  domain_zone_id  = data.aws_route53_zone.this.zone_id
 }
 
 # Security Group for example app
@@ -173,5 +177,17 @@ resource "aws_lb_listener" "app" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.app.arn
+  }
+}
+
+resource "aws_route53_record" "www" {
+  zone_id = local.domain_zone_id
+  name    = var.domain
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.my_loadbalancer.dns_name
+    zone_id                = aws_lb.my_loadbalancer.zone_id
+    evaluate_target_health = true
   }
 }
