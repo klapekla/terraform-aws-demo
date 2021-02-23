@@ -1,4 +1,6 @@
 terraform {
+  required_version = "~> 0.14.0"
+  
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -25,6 +27,8 @@ module "vpc" {
 }
 
 module "dns" {
+  count = var.dns_setup ? 1 : 0
+
   source = "./modules/dns"
   project_tag = var.project_tag
   domain = var.domain

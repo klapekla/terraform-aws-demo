@@ -8,7 +8,14 @@ variable "region" {
   description = "Name of AWS region"
 }
 
+variable "dns_setup" {
+  type = bool
+  description = "Setup new dns zone for specific domain"
+  default = false
+}
+
 variable "domain" {
   type = string
-  description = "Project Domain"
+  description = "Project Domain, if dns_setup is set to true"
+  default = ""
 }
