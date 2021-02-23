@@ -18,7 +18,7 @@ In my demo AWS access_key and secret_key will be automatically loaded from ~/.aw
 ### 1. Initialize for Remote Management of terraform state and state lock
 Folder: 01-state-management
 
-This folder contains iac files to create following ressources:
+This folder contains files to create following ressources:
 - S3 Bucket for storing the terraform state files
 - DynamoDB for managing locks of terraform state files
 
@@ -28,6 +28,9 @@ cd 01-state-management
 terraform init
 terraform plan
 terraform apply
+tf_state_region=$(terraform output -raw region)
+tf_state_bucket=$(terraform output -raw s3_bucket)
+tf_state_dynamodb_table=$(terraform output -raw dynamodb)
 ```
 
 ### 2. Creating infrastructure in AWS
@@ -36,10 +39,10 @@ Folder: 02-base-infrastructure
 ```
 cd 02-base-infrastructure
 terraform init \
-    -backend-config="bucket=terraform-state-wuoes-20201215" \
+    -backend-config="bucket=$tf_state_bucket" \
     -backend-config="key=terraform-aws-demo.tfstate" \
-    -backend-config="region=eu-central-1" \
-    -backend-config="dynamodb_table=terraform-state-lock"
+    -backend-config="region=$tf_state_region" \
+    -backend-config="dynamodb_table=$tf_state_dynamodb_table"
 terraform plan
 terraform apply
 ```

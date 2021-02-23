@@ -10,7 +10,7 @@ variable "region" {
 
 variable "s3_bucket" {
   type        = string
-  description = "name of s3 bucket for storing terraform state file"
+  description = "name of s3 bucket for storing terraform state file. A 8 char random id will be appended automatically."
 }
 
 variable "dynamodb" {
