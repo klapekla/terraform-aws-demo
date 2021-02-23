@@ -55,10 +55,10 @@ This creates 3 ec2 instances and a loadbalancer for now.
 ```
 cd 03-example-app
 terraform init \
-    -backend-config="bucket=terraform-state-wuoes-20201215" \
+    -backend-config="bucket=$tf_state_bucket" \
     -backend-config="key=terraform-aws-demo-app.tfstate" \
-    -backend-config="region=eu-central-1" \
-    -backend-config="dynamodb_table=terraform-state-lock"
+    -backend-config="region=$tf_state_region" \
+    -backend-config="dynamodb_table=$tf_state_dynamodb_table"
 terraform plan
 terraform apply
 ```
